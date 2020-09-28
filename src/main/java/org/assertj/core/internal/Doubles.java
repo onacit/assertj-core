@@ -66,7 +66,7 @@ public class Doubles extends RealNumbers<Double> {
   }
 
   @Override
-  protected Double NegativeInfinity() {
+  protected Double NEGATIVE_INFINITY() {
     return Double.NEGATIVE_INFINITY;
   }
 }

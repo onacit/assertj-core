@@ -58,7 +58,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     return value.compareTo(other) > 0;
   }
 
-  protected abstract NUMBER NegativeInfinity();
+  protected abstract NUMBER NEGATIVE_INFINITY();
 
   /**
    * Verifies that the actual value is equal to {@code NEGATIVE_INFINITY}.<br>
@@ -69,7 +69,7 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
    * @throws AssertionError if the actual value is not equal to {@code NEGATIVE_INFINITY}.
    */
   public void assertIsNegativeInfinity(AssertionInfo info, NUMBER actual) {
-    assertEqualByComparison(info, actual, NegativeInfinity());
+    assertEqualByComparison(info, actual, NEGATIVE_INFINITY());
   }
 
   /**
@@ -79,6 +79,6 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
    * @throws AssertionError if the actual value is equal to {@code NEGATIVE_INFINITY}.
    */
   public void assertIsNotNegativeInfinity(AssertionInfo info, NUMBER actual) {
-    assertNotEqualByComparison(info, actual, NegativeInfinity());
+    assertNotEqualByComparison(info, actual, NEGATIVE_INFINITY());
   }
 }

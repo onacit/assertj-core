@@ -157,15 +157,13 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(Float.NEGATIVE_INFINITY).isNegativeInfinity();
-   * assertThat(Float.intBitsToFloat(0xff800000)).isNegativeInfinity();
    * assertThat(Double.NEGATIVE_INFINITY).isNegativeInfinity();
-   * assertThat(Double.longBitsToDouble(0xfff0000000000000L)).isNegativeInfinity();
    *
    * // assertions will fail
-   * assertThat(1.0f).isNegativeInfinity();
+   * assertThat(+1.0f).isNegativeInfinity();
    * assertThat(Float.POSITIVE_INFINITY).isNegativeInfinity();
    * assertThat(Float.NaN).isNegativeInfinity();
-   * assertThat(1.0d).isNegativeInfinity();
+   * assertThat(-1.0d).isNegativeInfinity();
    * assertThat(Double.POSITIVE_INFINITY).isNegativeInfinity();
    * assertThat(Double.NaN).isNegativeInfinity();
    * </code></pre>
@@ -175,21 +173,24 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    */
   SELF isNegativeInfinity();
 
-//  /**
-//   * Verifies that the actual value is not equal to {@code NaN}.
-//   * <p>
-//   * Example:
-//   * <pre><code class='java'> // assertions will pass
-//   * assertThat(1.0).isNotNaN();
-//   * assertThat(-1.0F).isNotNaN();
-//   *
-//   * // assertions will fail
-//   * assertThat(Double.NaN).isNotNaN();
-//   * assertThat(0.0 / 0.0).isNotNaN();
-//   * assertThat(0.0F * Float.POSITIVE_INFINITY).isNotNaN();</code></pre>
-//   *
-//   * @return this assertion object.
-//   * @throws AssertionError if the actual value is equal to {@code NaN}.
-//   */
-//  SELF isNotNegativeInfinity();
+  /**
+   * Verifies that the actual value is not equal to {@code NEGATIVE_INFINITY}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(+1.0f).isNotNegativeInfinity();
+   * assertThat(Float.POSITIVE_INFINITY).isNotNegativeInfinity();
+   * assertThat(Float.NaN).isNotNegativeInfinity();
+   * assertThat(-1.0d).isNotNegativeInfinity();
+   * assertThat(Double.POSITIVE_INFINITY).isNotNegativeInfinity();
+   * assertThat(Double.NaN).isNegativeInfinity();
+   *
+   * // assertions will fail
+   * assertThat(Float.NEGATIVE_INFINITY).isNotNegativeInfinity();
+   * assertThat(Double.NEGATIVE_INFINITY).isNotNegativeInfinity();
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is equal to {@code NaN}.
+   */
+  SELF isNotNegativeInfinity();
 }
