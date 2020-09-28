@@ -65,4 +65,9 @@ public class Floats extends RealNumbers<Float> {
   protected Float absDiff(Float actual, Float other) {
     return abs(other.floatValue() - actual.floatValue());
   }
+
+  @Override
+  protected Float NegativeInfinity() {
+    return Float.NEGATIVE_INFINITY;
+  }
 }

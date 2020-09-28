@@ -871,4 +871,18 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   private boolean noCustomComparatorSet() {
     return floats.getComparator() == null;
   }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isNegativeInfinity() {
+    floats.assertIsNegativeInfinity(info, actual);
+    return myself;
+  }
+
+//  /** {@inheritDoc} */
+//  @Override
+//  public SELF isNotNegativeInfinity() {
+//    floats.assertIsNotNegativeInfinity(info, actual);
+//    return myself;
+//  }
 }
