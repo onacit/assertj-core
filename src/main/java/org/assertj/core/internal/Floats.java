@@ -67,7 +67,7 @@ public class Floats extends RealNumbers<Float> {
   }
 
   @Override
-  protected Float NegativeInfinity() {
+  protected Float NEGATIVE_INFINITY() {
     return Float.NEGATIVE_INFINITY;
   }
 }
