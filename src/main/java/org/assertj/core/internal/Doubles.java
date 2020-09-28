@@ -65,4 +65,8 @@ public class Doubles extends RealNumbers<Double> {
     return abs(other.doubleValue() - actual.doubleValue());
   }
 
+  @Override
+  protected Double NegativeInfinity() {
+    return Double.NEGATIVE_INFINITY;
+  }
 }
