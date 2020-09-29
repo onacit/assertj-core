@@ -152,7 +152,44 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
   SELF isNotNaN();
 
   /**
-   * Verifies that the actual value represents {@code negative infinity}.
+   * Verifies that the actual value is a finite floating-point value.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(+1.0f).isFinite();
+   * assertThat(-1.0d).isFinite();
+   *
+   * // assertions will fail
+   * assertThat(Float.NEGATIVE_INFINITY).isFinite();
+   * assertThat(Double.POSITIVE_INFINITY).isFinite();
+   * </code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is not a finite floating-point value.
+   * @see #isInfinite()
+   */
+  SELF isFinite();
+
+  /**
+   * Verifies that the actual value represents positive infinity or negative infinity.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(Float.NEGATIVE_INFINITY).isInfinite();
+   * assertThat(Double.POSITIVE_INFINITY).isInfinite();
+   *
+   * // assertions will fail
+   * assertThat(+1.0f).isInfinite();
+   * assertThat(-1.0d).isInfinite();
+   * </code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value doesn't represent the positive infinity nor negative infinity.
+   */
+  SELF isInfinite();
+
+  /**
+   * Verifies that the actual value is equal to {@code NEGATIVE_INFINITY}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
@@ -169,7 +206,7 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * </code></pre>
    *
    * @return this assertion object.
-   * @throws AssertionError if the actual value is not equal to {@code NaN}.
+   * @throws AssertionError if the actual value is not equal to {@code NEGATIVE_INFINITY}.
    */
   SELF isNegativeInfinity();
 
@@ -190,7 +227,7 @@ public interface FloatingPointNumberAssert<SELF extends  FloatingPointNumberAsse
    * assertThat(Double.NEGATIVE_INFINITY).isNotNegativeInfinity();
    *
    * @return this assertion object.
-   * @throws AssertionError if the actual value is equal to {@code NaN}.
+   * @throws AssertionError if the actual value is equal to {@code NEGATIVE_INFINITY}.
    */
   SELF isNotNegativeInfinity();
 }

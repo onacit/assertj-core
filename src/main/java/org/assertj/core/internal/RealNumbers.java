@@ -13,6 +13,9 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldBeTrue;
+
+import static org.assertj.core.error.ShouldBeTrue.shouldBeTrue;
 
 /**
  * Base class of reusable assertions for real numbers (float and double).
@@ -58,6 +61,30 @@ public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> ex
     return value.compareTo(other) > 0;
   }
 
+  protected abstract boolean isFinite(NUMBER value);
+
+  public void assertIsFinite(AssertionInfo info, NUMBER actual) {
+    assertNotNull(info, actual);
+    final boolean result = isFinite(actual);
+    if (result)
+      return;
+    throw failures.failure(info, shouldBeTrue(false));
+  }
+
+  protected abstract boolean isInfinite(NUMBER value);
+
+  public void assertIsInfinite(AssertionInfo info, NUMBER actual) {
+    assertNotNull(info, actual);
+    final boolean result = isInfinite(actual);
+    if (result)
+      return;
+    throw failures.failure(info, shouldBeTrue(false));
+  }
+
+  /**
+   * Returns a value represents {@code NEGATIVE_INFINITY}.
+   * @return a value represents {@code NEGATIVE_INFINITY}
+   */
   protected abstract NUMBER NEGATIVE_INFINITY();
 
   /**

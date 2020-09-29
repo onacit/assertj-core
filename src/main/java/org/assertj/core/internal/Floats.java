@@ -70,4 +70,14 @@ public class Floats extends RealNumbers<Float> {
   protected Float NEGATIVE_INFINITY() {
     return Float.NEGATIVE_INFINITY;
   }
+
+  @Override
+  protected boolean isFinite(Float value) {
+    return Float.isFinite(value);
+  }
+
+  @Override
+  protected boolean isInfinite(Float value) {
+    return Float.isInfinite(value);
+  }
 }

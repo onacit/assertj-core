@@ -69,4 +69,14 @@ public class Doubles extends RealNumbers<Double> {
   protected Double NEGATIVE_INFINITY() {
     return Double.NEGATIVE_INFINITY;
   }
+
+  @Override
+  protected boolean isFinite(Double value) {
+    return Double.isFinite(value);
+  }
+
+  @Override
+  protected boolean isInfinite(Double value) {
+    return Double.isInfinite(value);
+  }
 }
