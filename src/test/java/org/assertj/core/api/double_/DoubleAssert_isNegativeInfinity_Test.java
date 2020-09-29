@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api.double_;
 
+import static java.util.concurrent.ThreadLocalRandom.current;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
@@ -36,7 +39,69 @@ class DoubleAssert_isNegativeInfinity_Test extends DoubleAssertBaseTest {
   }
 
   @Test
-  void assert_with_fixed_long_bits() {
-    new DoubleAssert(Double.longBitsToDouble(0xfff0000000000000L)).isNegativeInfinity();
+  void should_pass_if_actual_is_from_0xfff0000000000000L() {
+    final double actual = Double.longBitsToDouble(0xfff0000000000000L);
+    assertThat(actual).isNegativeInfinity();
   }
+
+  @Test
+  void should_fail_if_actual_is_positive_zero() {
+    final long s = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
+    final long e = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
+    final long f = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
+    final double actual = Double.longBitsToDouble(s | e | f);
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+  }
+
+  @Test
+  void should_fail_if_actual_is_negative_zero() {
+    final long s = 0b1__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
+    final long e = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
+    final long f = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
+    final double actual = Double.longBitsToDouble(s | e | f);
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+  }
+
+  @Test
+  void should_fail_if_actual_is_subnormal_value() {
+    final long s = current().nextLong(2) << 63;
+    final long e = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
+    final long f = (current().nextLong() >>> 12) | 0b1;
+    final double actual = Double.longBitsToDouble(s | e | f);
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+  }
+
+  @Test
+  void should_fail_if_actual_is_normal_value() {
+    final int s = current().nextInt(2) << 31;
+    final int e = current().nextInt(1, 256) << 24;
+    final int f = current().nextInt() >>> 9;
+    final double actual = Double.longBitsToDouble(s | e | f);
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+  }
+
+  @Test
+  void should_fail_if_actual_is_POSITIVE_INFINITY() {
+    final double actual = Double.POSITIVE_INFINITY;
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+  }
+
+  @Test
+  void should_fail_if_actual_is_NaN() {
+    final double actual = Double.NaN;
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+  }
+
 }
