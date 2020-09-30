@@ -65,18 +65,43 @@ public class Doubles extends RealNumbers<Double> {
     return abs(other.doubleValue() - actual.doubleValue());
   }
 
-  @Override
-  protected Double NEGATIVE_INFINITY() {
-    return Double.NEGATIVE_INFINITY;
-  }
-
+  /**
+   * {@inheritDoc}
+   * @param value {@inheritDoc}
+   * @return {@inheritDoc}
+   * @see Double#isFinite(double)
+   */
   @Override
   protected boolean isFinite(Double value) {
     return Double.isFinite(value);
   }
 
+  /**
+   * {@inheritDoc}
+   * @param value {@inheritDoc}
+   * @return {@inheritDoc}
+   * @see Double#isInfinite(double)
+   */
   @Override
   protected boolean isInfinite(Double value) {
     return Double.isInfinite(value);
+  }
+
+  /**
+   * {@inheritDoc}
+   * @return {@link Double#NEGATIVE_INFINITY}.
+   */
+  @Override
+  protected Double NEGATIVE_INFINITY() {
+    return Double.NEGATIVE_INFINITY;
+  }
+
+  /**
+   * {@inheritDoc}
+   * @return {@link Double#POSITIVE_INFINITY}.
+   */
+  @Override
+  protected Double POSITIVE_INFINITY() {
+    return Double.POSITIVE_INFINITY;
   }
 }

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.double_;
 
-import static java.util.concurrent.ThreadLocalRandom.current;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
@@ -20,6 +19,8 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.DoubleAssert;
 import org.assertj.core.api.DoubleAssertBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for <code>{@link DoubleAssert#isNegativeInfinity()}</code>.
@@ -38,51 +39,26 @@ class DoubleAssert_isNegativeInfinity_Test extends DoubleAssertBaseTest {
     verify(doubles).assertIsNegativeInfinity(getInfo(assertions), getActual(assertions));
   }
 
-  @Test
-  void should_pass_if_actual_is_from_0xfff0000000000000L() {
-    final double actual = Double.longBitsToDouble(0xfff0000000000000L);
-    assertThat(actual).isNegativeInfinity();
-  }
-
-  @Test
-  void should_fail_if_actual_is_positive_zero() {
-    final long s = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
-    final long e = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
-    final long f = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
-    final double actual = Double.longBitsToDouble(s | e | f);
+  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#zeros"})
+  @ParameterizedTest
+  void should_fail_if_actual_is_zero(final double actual) {
+    assertThat(actual).isZero().isNotNaN().isFinite();
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
       .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
   }
 
-  @Test
-  void should_fail_if_actual_is_negative_zero() {
-    final long s = 0b1__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
-    final long e = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
-    final long f = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
-    final double actual = Double.longBitsToDouble(s | e | f);
+  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#subnormalValues"})
+  @ParameterizedTest
+  void should_fail_if_actual_is_subnormal_value(final double actual) {
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
       .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
   }
 
-  @Test
-  void should_fail_if_actual_is_subnormal_value() {
-    final long s = current().nextLong(2) << 63;
-    final long e = 0b0__00000000000__00000000_00000000_00000000_00000000_00000000_00000000_000L;
-    final long f = (current().nextLong() >>> 12) | 0b1;
-    final double actual = Double.longBitsToDouble(s | e | f);
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
-      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
-  }
-
-  @Test
-  void should_fail_if_actual_is_normal_value() {
-    final int s = current().nextInt(2) << 31;
-    final int e = current().nextInt(1, 256) << 24;
-    final int f = current().nextInt() >>> 9;
-    final double actual = Double.longBitsToDouble(s | e | f);
+  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#normalValues"})
+  @ParameterizedTest
+  void should_fail_if_actual_is_normal_value(final double actual) {
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
       .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
@@ -99,9 +75,9 @@ class DoubleAssert_isNegativeInfinity_Test extends DoubleAssertBaseTest {
   @Test
   void should_fail_if_actual_is_NaN() {
     final double actual = Double.NaN;
+    assertThat(actual).isNotZero().isNaN();
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
       .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
   }
-
 }

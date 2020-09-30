@@ -882,4 +882,18 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
     doubles.assertIsNotNegativeInfinity(info, actual);
     return myself;
   }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isPositiveInfinity() {
+    doubles.assertIsPositiveInfinity(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isNotPositiveInfinity() {
+    doubles.assertIsNotPositiveInfinity(info, actual);
+    return myself;
+  }
 }

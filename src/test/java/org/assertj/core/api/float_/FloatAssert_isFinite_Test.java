@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.float_;
 
-import static java.util.concurrent.ThreadLocalRandom.current;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
@@ -21,7 +20,7 @@ import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * A class for testing {@link FloatAssert#isFinite()} method.
@@ -40,40 +39,22 @@ class FloatAssert_isFinite_Test extends FloatAssertBaseTest {
     verify(floats).assertIsFinite(getInfo(assertions), getActual(assertions));
   }
 
-  @ValueSource(ints = {
-    0b0__00000000__00000000_00000000_0000_000,
-    0b1__00000000__00000000_00000000_0000_000
-  })
+  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#zeros"})
   @ParameterizedTest
-  void should_pass_if_actual_is_zero(int s) {
-    int e = 0b0__00000000__00000000_00000000_0000_000;
-    int g = 0b0__00000000__00000000_00000000_0000_000;
-    float actual = Float.intBitsToFloat(s | e | g);
-    assertThat(actual).isZero().isNotNaN().isFinite();
+  void should_pass_if_actual_is_zero(final float actual) {
+    assertThat(actual).isFinite();
   }
 
-  @ValueSource(ints = {
-    0b0__00000000__00000000_00000000_0000_000,
-    0b1__00000000__00000000_00000000_0000_000
-  })
+  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#subnormalValues"})
   @ParameterizedTest
-  void should_pass_if_actual_is_subnormal_value(int s) {
-    int e = 0b0__00000000__00000000_00000000_0000_000;
-    int g = (current().nextInt(Integer.MAX_VALUE) + 1) >> 9;
-    float actual = Float.intBitsToFloat(s | e | g);
-    assertThat(actual).isNotZero().isNotNaN().isFinite();
+  void should_pass_if_actual_is_subnormal_value(final float actual) {
+    assertThat(actual).isFinite();
   }
 
-  @ValueSource(ints = {
-    0b0__00000000__00000000_00000000_0000_000,
-    0b1__00000000__00000000_00000000_0000_000
-  })
+  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#normalValues"})
   @ParameterizedTest
-  void should_pass_if_actual_is_normal_value(int s) {
-    int e = current().nextInt(0x01, 0xFF) << 23;
-    int g = current().nextInt() >>> 9;
-    float actual = Float.intBitsToFloat(s | e | g);
-    assertThat(actual).isNotZero().isNotNaN().isFinite();
+  void should_pass_if_actual_is_normal_value(final float actual) {
+    assertThat(actual).isFinite();
   }
 
   @Test

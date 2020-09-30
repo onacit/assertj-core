@@ -900,4 +900,18 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
     floats.assertIsNotNegativeInfinity(info, actual);
     return myself;
   }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isPositiveInfinity() {
+    floats.assertIsPositiveInfinity(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public SELF isNotPositiveInfinity() {
+    floats.assertIsNotPositiveInfinity(info, actual);
+    return myself;
+  }
 }

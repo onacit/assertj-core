@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.float_;
 
-import static java.util.concurrent.ThreadLocalRandom.current;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
@@ -21,12 +20,12 @@ import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Tests for <code>{@link FloatAssert#isNegativeInfinity()}</code>.
+ * A class for testing {@link FloatAssert#isNegativeInfinity()} method.
  * 
- * @author Jin Kwon
+ * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
 class FloatAssert_isNegativeInfinity_Test extends FloatAssertBaseTest {
 
@@ -40,50 +39,25 @@ class FloatAssert_isNegativeInfinity_Test extends FloatAssertBaseTest {
     verify(floats).assertIsNegativeInfinity(getInfo(assertions), getActual(assertions));
   }
 
-  @Test
-  void should_pass_if_actual_is_from_0xff800000() {
-    final float actual = Float.intBitsToFloat(0xff800000);
-    assertThat(actual).isNegativeInfinity();
-  }
-
-  @ValueSource(ints = {
-    0b0__00000000__00000000_00000000_0000_000,
-    0b1__00000000__00000000_00000000_0000_000
-  })
+  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#zeros"})
   @ParameterizedTest
-  void should_fail_if_actual_is_zero(final int s) {
-    final int e = 0b0__00000000__00000000_00000000_0000_000;
-    final int g = 0b0__00000000__00000000_00000000_0000_000;
-    final float actual = Float.intBitsToFloat(s | e | g);
+  void should_fail_if_actual_is_zero(final float actual) {
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
       .withMessageContainingAll("" + actual, "" + Float.NEGATIVE_INFINITY);
   }
 
-  @ValueSource(ints = {
-    0b0__00000000__00000000_00000000_0000_000,
-    0b1__00000000__00000000_00000000_0000_000
-  })
+  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#subnormalValues"})
   @ParameterizedTest
-  void should_fail_if_actual_is_subnormal_value(final int s) {
-    int e = 0b0__00000000__00000000_00000000_0000_000;
-    int g = (current().nextInt(Integer.MAX_VALUE) + 1) >> 9;
-    final float actual = Float.intBitsToFloat(s | e | g);
+  void should_fail_if_actual_is_subnormal_value(final float actual) {
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
       .withMessageContainingAll("" + actual, "" + Float.NEGATIVE_INFINITY);
   }
 
-  @ValueSource(ints = {
-    0b0__00000000__00000000_00000000_0000_000,
-    0b1__00000000__00000000_00000000_0000_000
-  })
+  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#normalValues"})
   @ParameterizedTest
-  void should_fail_if_actual_is_normal_value(final int s) {
-    int e = current().nextInt(0x01, 0xFF) << 23;
-    int g = current().nextInt() >>> 9;
-    final float actual = Float.intBitsToFloat(s | e | g);
-    assertThat(actual).isNotZero().isNotNaN().isFinite();
+  void should_fail_if_actual_is_normal_value(final float actual) {
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
       .withMessageContainingAll("" + actual, "" + Float.NEGATIVE_INFINITY);

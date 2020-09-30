@@ -66,18 +66,44 @@ public class Floats extends RealNumbers<Float> {
     return abs(other.floatValue() - actual.floatValue());
   }
 
-  @Override
-  protected Float NEGATIVE_INFINITY() {
-    return Float.NEGATIVE_INFINITY;
-  }
-
+  /**
+   * {@inheritDoc}
+   * @param value {@inheritDoc}
+   * @return {@inheritDoc}
+   * @see Float#isFinite(float)
+   */
   @Override
   protected boolean isFinite(Float value) {
     return Float.isFinite(value);
   }
 
+  /**
+   * {@inheritDoc}
+   * @param value {@inheritDoc}
+   * @return {@inheritDoc}
+   * @see Float#isInfinite(float)
+   */
   @Override
   protected boolean isInfinite(Float value) {
     return Float.isInfinite(value);
   }
+
+  /**
+   * {@inheritDoc}
+   * @return {@link Float#NEGATIVE_INFINITY}.
+   */
+  @Override
+  protected Float NEGATIVE_INFINITY() {
+    return Float.NEGATIVE_INFINITY;
+  }
+
+  /**
+   * {@inheritDoc}
+   * @return {@link Float#POSITIVE_INFINITY}.
+   */
+  @Override
+  protected Float POSITIVE_INFINITY() {
+    return Float.POSITIVE_INFINITY;
+  }
+
 }

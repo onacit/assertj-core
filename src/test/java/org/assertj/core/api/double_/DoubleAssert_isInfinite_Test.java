@@ -12,70 +12,50 @@
  */
 package org.assertj.core.api.double_;
 
-import static java.util.concurrent.ThreadLocalRandom.current;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
-import org.assertj.core.api.FloatAssert;
-import org.assertj.core.api.FloatAssertBaseTest;
+import org.assertj.core.api.DoubleAssertBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * A class for testing {@link DoubleAssert#isInfinite()} method.
  * 
  * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class DoubleAssert_isInfinite_Test extends FloatAssertBaseTest {
+class DoubleAssert_isInfinite_Test extends DoubleAssertBaseTest {
 
   @Override
-  protected FloatAssert invoke_api_method() {
+  protected DoubleAssert invoke_api_method() {
     return assertions.isInfinite();
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(floats).assertIsInfinite(getInfo(assertions), getActual(assertions));
+    verify(doubles).assertIsInfinite(getInfo(assertions), getActual(assertions));
   }
 
-  @ValueSource(longs = {
-    0b0__00000000_000__00000000_00000000_00000000_00000000_00000000_00000000_0000L,
-    0b1__00000000_000__00000000_00000000_00000000_00000000_00000000_00000000_0000L
-  })
+  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#zeros"})
   @ParameterizedTest
-  void should_fail_if_actual_is_zero(long s) {
-    long e = 0b0__00000000_000__00000000_00000000_00000000_00000000_00000000_00000000__0000L;
-    long g = 0b0__00000000_000__00000000_00000000_00000000_00000000_00000000_00000000__0000L;
-    double actual = Double.longBitsToDouble(s | e | g);
+  void should_fail_if_actual_is_zero(final double actual) {
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isInfinite());
   }
 
-  @ValueSource(longs = {
-    0b0__00000000_000__00000000_00000000_00000000_00000000_00000000_00000000_0000L,
-    0b1__00000000_000__00000000_00000000_00000000_00000000_00000000_00000000_0000L
-  })
+  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#subnormalValues"})
   @ParameterizedTest
-  void should_fail_if_actual_is_subnormal_value(long s) {
-    long e = 0b0__00000000_000__00000000_00000000_00000000_00000000_00000000_00000000_0000;
-    long g = (current().nextLong(Long.MAX_VALUE) + 1) >> 12;
-    double actual = Double.longBitsToDouble(s | e | g);
+  void should_fail_if_actual_is_subnormal_value(final double actual) {
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isInfinite());
   }
 
-  @ValueSource(longs = {
-    0b0__00000000_000__00000000_00000000_00000000_00000000_00000000_00000000_0000L,
-    0b1__00000000_000__00000000_00000000_00000000_00000000_00000000_00000000_0000L
-  })
+  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#normalValues"})
   @ParameterizedTest
-  void should_fail_if_actual_is_normal_value(long s) {
-    long e = current().nextLong(0x001, 0x7FF) << 52;
-    long g = current().nextLong() >>> 12;
-    double actual = Double.longBitsToDouble(s | e | g);
+  void should_fail_if_actual_is_normal_value(final double actual) {
     assertThatExceptionOfType(AssertionError.class)
       .isThrownBy(() -> assertThat(actual).isInfinite());
   }

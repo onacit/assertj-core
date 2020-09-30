@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.float_;
 
-import static java.util.concurrent.ThreadLocalRandom.current;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
@@ -22,62 +21,61 @@ import org.assertj.core.api.FloatAssertBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link FloatAssert#isInfinite()}</code>.
+ * A class for testing {@link FloatAssert#isPositiveInfinity()} method.
  * 
- * @author Jin Kwon
+ * @author Jin Kwon &lt;onacit_at_gmail.com&gt;
  */
-class FloatAssert_isInfinite_Test extends FloatAssertBaseTest {
+class FloatAssert_isPositiveInfinity_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {
-    return assertions.isInfinite();
+    return assertions.isPositiveInfinity();
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(floats).assertIsInfinite(getInfo(assertions), getActual(assertions));
+    verify(floats).assertIsPositiveInfinity(getInfo(assertions), getActual(assertions));
   }
 
   @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#zeros"})
   @ParameterizedTest
   void should_fail_if_actual_is_zero(final float actual) {
     assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isInfinite());
+      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 
   @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#subnormalValues"})
   @ParameterizedTest
   void should_fail_if_actual_is_subnormal_value(final float actual) {
     assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isInfinite());
+      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 
   @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#normalValues"})
   @ParameterizedTest
   void should_fail_if_actual_is_normal_value(final float actual) {
     assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isInfinite());
+      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 
   @Test
-  void should_pass_if_actual_is_NEGATIVE_INFINITY() {
-    float actual = Float.NEGATIVE_INFINITY;
-    assertThat(actual).isInfinite();
-  }
-
-  @Test
-  void should_pass_if_actual_is_POSITIVE_INFINITY() {
-    float actual = Float.POSITIVE_INFINITY;
-    assertThat(actual).isInfinite();
+  void should_fail_if_actual_is_NEGATIVE_INFINITY() {
+    final float actual = Float.NEGATIVE_INFINITY;
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 
   @Test
   void should_fail_if_actual_is_NaN() {
     final float actual = Float.NaN;
     assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isInfinite());
+      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 }
