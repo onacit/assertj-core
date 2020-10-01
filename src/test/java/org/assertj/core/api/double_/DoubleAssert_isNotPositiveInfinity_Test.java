@@ -13,6 +13,7 @@
 package org.assertj.core.api.double_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
@@ -36,6 +37,14 @@ class DoubleAssert_isNotPositiveInfinity_Test extends DoubleAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(doubles).assertIsNotPositiveInfinity(getInfo(assertions), getActual(assertions));
+  }
+
+  @Test
+  void should_fail_if_actual_is_POSITIVE_INFINITY() {
+    final double actual = Double.POSITIVE_INFINITY;
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(actual).isNotPositiveInfinity())
+      .withMessageContainingAll("" + actual, "" + Double.POSITIVE_INFINITY);
   }
 
   @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#zeros"})

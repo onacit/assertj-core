@@ -39,42 +39,39 @@ class FloatAssert_isFinite_Test extends FloatAssertBaseTest {
     verify(floats).assertIsFinite(getInfo(assertions), getActual(assertions));
   }
 
-  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#zeros"})
+  @MethodSource({ "org.assertj.core.api.float_.FloatAssertTestParameters#zeros" })
   @ParameterizedTest
   void should_pass_if_actual_is_zero(final float actual) {
     assertThat(actual).isFinite();
   }
 
-  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#subnormalValues"})
+  @MethodSource({ "org.assertj.core.api.float_.FloatAssertTestParameters#subnormalValues" })
   @ParameterizedTest
   void should_pass_if_actual_is_subnormal_value(final float actual) {
     assertThat(actual).isFinite();
   }
 
-  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#normalValues"})
+  @MethodSource({ "org.assertj.core.api.float_.FloatAssertTestParameters#normalValues" })
   @ParameterizedTest
   void should_pass_if_actual_is_normal_value(final float actual) {
     assertThat(actual).isFinite();
   }
 
   @Test
+  void should_fail_if_actual_is_NaN() {
+    final float actual = Float.NaN;
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isFinite());
+  }
+
+  @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY() {
-    float actual = Float.NEGATIVE_INFINITY;
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isFinite());
+    final float actual = Float.NEGATIVE_INFINITY;
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isFinite());
   }
 
   @Test
   void should_fail_if_actual_is_POSITIVE_INFINITY() {
-    float actual = Float.POSITIVE_INFINITY;
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isFinite());
-  }
-
-  @Test
-  void should_fail_if_actual_is_NaN() {
-    final float actual = Float.NaN;
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isFinite());
+    final float actual = Float.POSITIVE_INFINITY;
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isFinite());
   }
 }

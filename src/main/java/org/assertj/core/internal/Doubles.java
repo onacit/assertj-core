@@ -22,6 +22,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Drummond Dawson
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Jin Kwon
  */
 public class Doubles extends RealNumbers<Double> {
 

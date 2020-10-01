@@ -13,6 +13,7 @@
 package org.assertj.core.api.float_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;
@@ -39,19 +40,26 @@ class FloatAssert_isNotNegativeInfinity_Test extends FloatAssertBaseTest {
     verify(floats).assertIsNotNegativeInfinity(getInfo(assertions), getActual(assertions));
   }
 
-  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#zeros"})
+  @Test
+  void should_fail_if_actual_is_NEGATIVE_INFINITY() {
+    final float actual = Float.NEGATIVE_INFINITY;
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNotNegativeInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Float.NEGATIVE_INFINITY);
+  }
+
+  @MethodSource({ "org.assertj.core.api.float_.FloatAssertTestParameters#zeros" })
   @ParameterizedTest
   void should_pass_if_actual_is_zero(final float actual) {
     assertThat(actual).isNotNegativeInfinity();
   }
 
-  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#subnormalValues"})
+  @MethodSource({ "org.assertj.core.api.float_.FloatAssertTestParameters#subnormalValues" })
   @ParameterizedTest
   void should_pass_if_actual_is_subnormal_value(final float actual) {
     assertThat(actual).isNotNegativeInfinity();
   }
 
-  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#normalValues"})
+  @MethodSource({ "org.assertj.core.api.float_.FloatAssertTestParameters#normalValues" })
   @ParameterizedTest
   void should_pass_if_actual_is_normal_value(final float actual) {
     assertThat(actual).isNotNegativeInfinity();

@@ -35,11 +35,7 @@ final class FloatAssertTestParameters {
   static Stream<Float> zeros() {
     return signs()
       .mapToObj(Float::intBitsToFloat)
-      .peek(v-> {
-        assertThat(v.floatValue())
-          .isZero()
-          .isNotNaN().isFinite();
-      });
+      .peek(v -> assertThat(v.floatValue()).isZero().isNotNaN().isFinite());
   }
 
   static Stream<Float> subnormalValues() {
@@ -51,9 +47,7 @@ final class FloatAssertTestParameters {
       })
       .flatMap(v -> signs().map(s -> s | v))
       .mapToObj(Float::intBitsToFloat)
-      .peek(v -> {
-        assertThat(v.floatValue()).isNotZero().isNotNaN().isFinite();
-      });
+      .peek(v ->        assertThat(v.floatValue()).isNotZero().isNotNaN().isFinite()      );
   }
 
   static Stream<Float> normalValues() {
@@ -65,9 +59,7 @@ final class FloatAssertTestParameters {
       })
       .flatMap(v -> signs().map(s -> s | v))
       .mapToObj(Float::intBitsToFloat)
-      .peek(v -> {
-        assertThat(v.floatValue()).isNotZero().isNotNaN().isFinite();
-      });
+      .peek(v ->        assertThat(v.floatValue()).isNotZero().isNotNaN().isFinite());
   }
 
   private FloatAssertTestParameters() {

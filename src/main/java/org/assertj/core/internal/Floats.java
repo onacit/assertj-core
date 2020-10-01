@@ -23,6 +23,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Jin Kwon
  */
 public class Floats extends RealNumbers<Float> {
 

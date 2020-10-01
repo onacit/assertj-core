@@ -39,43 +39,44 @@ class FloatAssert_isPositiveInfinity_Test extends FloatAssertBaseTest {
     verify(floats).assertIsPositiveInfinity(getInfo(assertions), getActual(assertions));
   }
 
-  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#zeros"})
+  @Test
+  void should_pass_if_actual_is_POSITIVE_INFINITY() {
+    final float actual = Float.POSITIVE_INFINITY;
+    assertThat(actual).isPositiveInfinity();
+  }
+
+  @MethodSource({ "org.assertj.core.api.float_.FloatAssertTestParameters#zeros" })
   @ParameterizedTest
   void should_fail_if_actual_is_zero(final float actual) {
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
-      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 
-  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#subnormalValues"})
+  @MethodSource({ "org.assertj.core.api.float_.FloatAssertTestParameters#subnormalValues" })
   @ParameterizedTest
   void should_fail_if_actual_is_subnormal_value(final float actual) {
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
-      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 
-  @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#normalValues"})
+  @MethodSource({ "org.assertj.core.api.float_.FloatAssertTestParameters#normalValues" })
   @ParameterizedTest
   void should_fail_if_actual_is_normal_value(final float actual) {
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
-      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 
   @Test
   void should_fail_if_actual_is_NEGATIVE_INFINITY() {
     final float actual = Float.NEGATIVE_INFINITY;
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
-      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 
   @Test
   void should_fail_if_actual_is_NaN() {
     final float actual = Float.NaN;
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isPositiveInfinity())
-      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isPositiveInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
   }
 }

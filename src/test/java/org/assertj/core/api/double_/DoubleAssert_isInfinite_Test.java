@@ -39,25 +39,32 @@ class DoubleAssert_isInfinite_Test extends DoubleAssertBaseTest {
     verify(doubles).assertIsInfinite(getInfo(assertions), getActual(assertions));
   }
 
-  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#zeros"})
+  @MethodSource({ "org.assertj.core.api.double_.DoubleAssertTestParameters#zeros" })
   @ParameterizedTest
   void should_fail_if_actual_is_zero(final double actual) {
     assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isInfinite());
+                                                   .isThrownBy(() -> assertThat(actual).isInfinite());
   }
 
-  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#subnormalValues"})
+  @MethodSource({ "org.assertj.core.api.double_.DoubleAssertTestParameters#subnormalValues" })
   @ParameterizedTest
   void should_fail_if_actual_is_subnormal_value(final double actual) {
     assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isInfinite());
+                                                   .isThrownBy(() -> assertThat(actual).isInfinite());
   }
 
-  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#normalValues"})
+  @MethodSource({ "org.assertj.core.api.double_.DoubleAssertTestParameters#normalValues" })
   @ParameterizedTest
   void should_fail_if_actual_is_normal_value(final double actual) {
     assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isInfinite());
+                                                   .isThrownBy(() -> assertThat(actual).isInfinite());
+  }
+
+  @Test
+  void should_fail_if_actual_is_NaN() {
+    double actual = Double.NaN;
+    assertThatExceptionOfType(AssertionError.class)
+                                                   .isThrownBy(() -> assertThat(actual).isInfinite());
   }
 
   @Test
@@ -70,12 +77,5 @@ class DoubleAssert_isInfinite_Test extends DoubleAssertBaseTest {
   void should_pass_if_actual_is_POSITIVE_INFINITY() {
     double actual = Double.POSITIVE_INFINITY;
     assertThat(actual).isInfinite();
-  }
-
-  @Test
-  void should_fail_if_actual_is_NaN() {
-    double actual = Double.NaN;
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isInfinite());
   }
 }

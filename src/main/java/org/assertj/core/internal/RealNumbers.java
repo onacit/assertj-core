@@ -20,6 +20,7 @@ import org.assertj.core.api.AssertionInfo;
  * Base class of reusable assertions for real numbers (float and double).
  * 
  * @author Joel Costigliola
+ * @author Jin Kwon
  */
 public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> extends Numbers<NUMBER> {
 

@@ -42,6 +42,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  * @author Nicolas François
+ * @author Jin Kwon
  */
 public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SELF>> extends
     AbstractComparableAssert<SELF, Double> implements FloatingPointNumberAssert<SELF, Double> {

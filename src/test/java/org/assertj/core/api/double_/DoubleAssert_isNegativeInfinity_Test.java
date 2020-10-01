@@ -39,45 +39,44 @@ class DoubleAssert_isNegativeInfinity_Test extends DoubleAssertBaseTest {
     verify(doubles).assertIsNegativeInfinity(getInfo(assertions), getActual(assertions));
   }
 
-  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#zeros"})
+  @Test
+  void should_pass_if_actual_is_NEGATIVE_INFINITY() {
+    final double actual = Float.NEGATIVE_INFINITY;
+    assertThat(actual).isNegativeInfinity();
+  }
+
+  @MethodSource({ "org.assertj.core.api.double_.DoubleAssertTestParameters#zeros" })
   @ParameterizedTest
   void should_fail_if_actual_is_zero(final double actual) {
-    assertThat(actual).isZero().isNotNaN().isFinite();
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
-      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
   }
 
-  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#subnormalValues"})
+  @MethodSource({ "org.assertj.core.api.double_.DoubleAssertTestParameters#subnormalValues" })
   @ParameterizedTest
   void should_fail_if_actual_is_subnormal_value(final double actual) {
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
-      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
   }
 
-  @MethodSource({"org.assertj.core.api.double_.DoubleAssertTestParameters#normalValues"})
+  @MethodSource({ "org.assertj.core.api.double_.DoubleAssertTestParameters#normalValues" })
   @ParameterizedTest
   void should_fail_if_actual_is_normal_value(final double actual) {
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
-      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
-  }
-
-  @Test
-  void should_fail_if_actual_is_POSITIVE_INFINITY() {
-    final double actual = Double.POSITIVE_INFINITY;
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
-      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
   }
 
   @Test
   void should_fail_if_actual_is_NaN() {
     final double actual = Double.NaN;
-    assertThat(actual).isNotZero().isNaN();
-    assertThatExceptionOfType(AssertionError.class)
-      .isThrownBy(() -> assertThat(actual).isNegativeInfinity())
-      .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
+  }
+
+  @Test
+  void should_fail_if_actual_is_POSITIVE_INFINITY() {
+    final double actual = Double.POSITIVE_INFINITY;
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNegativeInfinity())
+                                                   .withMessageContainingAll("" + actual, "" + Double.NEGATIVE_INFINITY);
   }
 }

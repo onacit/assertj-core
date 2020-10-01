@@ -39,6 +39,14 @@ class FloatAssert_isNotPositiveInfinity_Test extends FloatAssertBaseTest {
     verify(floats).assertIsPositiveInfinity(getInfo(assertions), getActual(assertions));
   }
 
+  @Test
+  void should_fail_if_actual_is_POSITIVE_INFINITY() {
+    final float actual = Float.POSITIVE_INFINITY;
+    assertThatExceptionOfType(AssertionError.class)
+      .isThrownBy(() -> assertThat(actual).isNotPositiveInfinity())
+      .withMessageContainingAll("" + actual, "" + Float.POSITIVE_INFINITY);
+  }
+
   @MethodSource({"org.assertj.core.api.float_.FloatAssertTestParameters#zeros"})
   @ParameterizedTest
   void should_pass_if_actual_is_zero(final float actual) {
